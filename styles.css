@@ -1,0 +1,39 @@
+*, *::before, *::after {
+    box-sizing: border-box;
+}
+
+body {
+    margin: 0;
+    background: rgb(35, 36, 43);
+    color: #d7d7d7;
+    font-family: Verdana, Geneva, Tahoma, sans-serif;
+}
+
+.container {
+    width: 80%;
+    max-width: 750px;
+    margin: 0 auto;
+}
+
+.title {
+    color: #ffffff;
+}
+
+label {
+    color: #00e1ff;
+}
+
+input {
+    outline: none;
+    border: 1px solid #00e1ff;
+    color: #ffffff;
+    background: rgba(35, 36, 43, 0.3);
+}
+
+button {
+    background: #00e1ff;
+    color: #23242b;
+    border: none;
+    display: inline-block;
+    padding: 0.125em 0.5em;
+}
