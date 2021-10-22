@@ -10,6 +10,7 @@ const guessSubmit = document.querySelector('.guessSubmit');
 const guessField = document.querySelector('#guessField');
 
 guessSubmit.addEventListener('click', (e) => {
+    e.preventDefault();
     let userGuess = Number(guessField.value);
 
     if (typeof userGuess != "number") {
