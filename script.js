@@ -1,76 +1,76 @@
-let randomNumber = Math.round(Math.random() * 100);
-let numberOfTurns = 1;
+let randomNumber = Math.floor(Math.random() * 100) + 1;
 
-const container = document.querySelector('.container')
-const guesses = document.querySelector('.guesses');
-const lastResult = document.querySelector('.lastResult');
-const lowOrHigh = document.querySelector('.lowOrHigh');
+const guessesElement = document.querySelector(".guesses");
+const lastResultElement = document.querySelector(".lastResult");
+const lowOrHighElement = document.querySelector(".lowOrHigh");
 
-const guessSubmit = document.querySelector('.guessSubmit');
-const guessField = document.querySelector('#guessField');
+const guessSubmitButton = document.querySelector(".guessSubmit");
+const guessFieldElement = document.querySelector(".guessField");
 
-guessSubmit.addEventListener('click', (e) => {
-    e.preventDefault();
-    let userGuess = Number(guessField.value);
+let guessCount = 1;
+let resetButton;
+guessFieldElement.focus();
 
-    if (typeof userGuess != "number") {
-        e.preventDefault();
-    }
+function checkGuess() {
+	const userGuess = Number(guessFieldElement.value);
 
-    if (numberOfTurns === 1 && numberOfTurns < 10) {
-        guesses.textContent = 'Previous guesses ';
-    }
-    guesses.textContent += userGuess + ' ';
+	if (guessCount === 1) {
+		guessesElement.textContent = "Previous guesses: ";
+	}
+	guessesElement.textContent += userGuess + " ";
 
-    if (userGuess === randomNumber) {
-        lastResult.textContent = "Congratulations! You got it right";
-        lastResult.style.color = 'green';
-        lowOrHigh.textContent = "";
-        setGameOver();
-    } else if (numberOfTurns === 10) {
-        lastResult.textContent = "Game Over!!!";
-        setGameOver();
-    } else {
-        lastResult.textContent = "Wrong!";
-        lastResult.style.color = "red";
+	if (userGuess === randomNumber) {
+		lastResultElement.textContent = "Congratulations! You got it right!";
+		lastResultElement.style.backgroundColor = "green";
+		lowOrHighElement.textContent = "";
+		setGameOver();
+	} else if (guessCount === 10) {
+		lastResultElement.textContent = "!!!GAME OVER!!!";
+		lowOrHighElement.textContent = "";
+		setGameOver();
+	} else {
+		lastResultElement.textContent = "Wrong!";
+		lastResultElement.style.backgroundColor = "red";
 
-        if (userGuess > randomNumber) {
-            lowOrHigh.textContent = 'You have guessed too high';
-        } else {
-            lowOrHigh.textContent = "You have guess too low";
-        }
-    }
+		if (userGuess < randomNumber) {
+			lowOrHighElement.textContent = "Last guess was too low!";
+		} else if (userGuess > randomNumber) {
+			lowOrHighElement.textContent = "Last guess was too high!";
+		}
+	}
 
-    numberOfTurns++;
-    guessField.value = "";
-    guessField.focus();
-});
+	guessCount++;
+	guessFieldElement.value = "";
+	guessFieldElement.focus();
+}
+
+guessSubmitButton.addEventListener("click", checkGuess);
 
 function setGameOver() {
-    guessField.disabled = true;
-    guessSubmit.disabled = true;
-    resetButton = document.createElement('button');
-    resetButton.textContent = 'Start new game';
-    container.append(resetButton);
-    resetButton.addEventListener('click', resetGame);
+	guessField.disabled = true;
+	guessSubmit.disabled = true;
+	resetButton = document.createElement("button");
+	resetButton.textContent = "Start new game";
+	document.body.append(resetButton);
+	resetButton.addEventListener("click", resetGame);
 }
 
 function resetGame() {
-    numberOfTurns = 1;
+	guessCount = 1;
 
-    const resetParas = document.querySelectorAll('.resultParas p');
-    resetParas.forEach(para => {
-        para.textContent = "";
-    });
+	const resultParagraphElements = document.querySelectorAll(".results p");
+	for (const paragraph of resultParagraphElements) {
+		paragraph.textContent = "";
+	}
 
-    resetButton.parentNode.removeChild(resetButton);
+	resetButton.parentNode.removeChild(resetButton);
 
-    guessField.disabled = false;
-    guessSubmit.disabled = false;
-    guessField.value = "";
-    guessField.focus();
+	guessFieldElement.disabled = false;
+	guessSubmitButton.disabled = false;
+	guessFieldElement.value = "";
+	guessFieldElement.focus();
 
-    lastResult.style.color = "white";
+	lastResultElement.style.backgroundColor = "white";
 
-    randomNumber = Math.round(Math.random() * 100);
+	randomNumber = Math.floor(Math.random() * 100) + 1;
 }
